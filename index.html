@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Portfolio | Modern Professional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* header / nav - no admin link anymore */
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-right: auto;
+        }
+
+        /* profile section */
+        .profile-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(203, 213, 225, 0.5);
+            text-align: center;
+        }
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 15px 30px -12px rgba(0,0,0,0.2);
+            border: 4px solid white;
+            margin-bottom: 1.5rem;
+        }
+        .profile-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(145deg, #1e293b, #2d3a5e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .profile-bio {
+            font-size: 1.1rem;
+            color: #334155;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+            border-left: 5px solid #3b82f6;
+            padding-left: 1rem;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+        .project-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: all 0.25s ease;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.02);
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+            border-color: #cbd5e1;
+        }
+        .project-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #0f172a;
+        }
+        .project-desc {
+            color: #475569;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+        .live-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #f1f5f9;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .live-link:hover {
+            background: #e0e7ff;
+            color: #1d4ed8;
+        }
+        .empty-projects {
+            background: #f1f5f9;
+            border-radius: 2rem;
+            padding: 3rem;
+            text-align: center;
+            color: #475569;
+        }
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 640px) {
+            .container { padding: 1.5rem; }
+            .profile-name { font-size: 1.7rem; }
+            .avatar { width: 120px; height: 120px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <span class="logo">✦</span>
+        <!-- Admin link completely removed -->
+    </div>
+
+    <div id="profileSection" class="profile-card">
+        <img id="profileImg" class="avatar" src="" alt="profile">
+        <h1 id="profileName" class="profile-name"></h1>
+        <p id="profileDesc" class="profile-bio"></p>
+    </div>
+
+    <div>
+        <h2 class="section-title">📌 Featured Projects</h2>
+        <div id="projectsContainer" class="projects-grid"></div>
+    </div>
+    <footer>
+        © 2025 Dynamic Portfolio — Content managed via admin panel
+    </footer>
+</div>
+
+<script>
+    const STORAGE_KEY = "portfolio_data";
+    const defaultData = {
+        profile: {
+            name: "Alex Rivera",
+            description: "Creative Full-Stack Developer with 6+ years of passion for building sleek web apps and digital experiences.",
+            pictureUrl: "https://randomuser.me/api/portraits/men/32.jpg"
+        },
+        projects: [
+            { id: "proj1", name: "Nebula Dashboard", description: "Analytics dashboard with live data & real-time charts.", liveLink: "https://github.com/" },
+            { id: "proj2", name: "Horizon E-commerce", description: "Full-stack e-commerce platform with cart & payments.", liveLink: "https://github.com/" }
+        ]
+    };
+
+    function loadPortfolioData() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (!parsed.projects) parsed.projects = [];
+                if (!parsed.profile) parsed.profile = defaultData.profile;
+                return parsed;
+            } catch(e) { return JSON.parse(JSON.stringify(defaultData)); }
+        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
+        return JSON.parse(JSON.stringify(defaultData));
+    }
+
+    function renderPortfolio() {
+        const data = loadPortfolioData();
+        const profile = data.profile;
+        const projects = data.projects || [];
+
+        const profileImg = document.getElementById("profileImg");
+        const profileName = document.getElementById("profileName");
+        const profileDesc = document.getElementById("profileDesc");
+
+        if (profileImg) profileImg.src = profile.pictureUrl || "https://randomuser.me/api/portraits/men/1.jpg";
+        if (profileName) profileName.textContent = profile.name || "Your Name";
+        if (profileDesc) profileDesc.textContent = profile.description || "Tell something about yourself";
+
+        const container = document.getElementById("projectsContainer");
+        if (!container) return;
+
+        if (!projects.length) {
+            container.innerHTML = `<div class="empty-projects"><span>✨ No projects added yet.</span></div>`;
+            return;
+        }
+
+        container.innerHTML = "";
+        projects.forEach(project => {
+            const card = document.createElement("div");
+            card.className = "project-card";
+            card.innerHTML = `
+                <h3 class="project-name">${escapeHtml(project.name)}</h3>
+                <p class="project-desc">${escapeHtml(project.description)}</p>
+                <a href="${escapeHtml(project.liveLink)}" target="_blank" rel="noopener noreferrer" class="live-link">🔗 Live Demo &rarr;</a>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return "";
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    window.addEventListener("storage", (event) => {
+        if (event.key === STORAGE_KEY) renderPortfolio();
+    });
+
+    renderPortfolio();
+</script>
+</body>
+</html>
